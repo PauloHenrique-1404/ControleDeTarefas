@@ -8,6 +8,7 @@ public class ControleDeTarefas {
 
         Scanner entrada = new Scanner (System.in);
         ArrayList<String> tarefas = new ArrayList<>();
+        ArrayList<Boolean> concluidas = new ArrayList<>();
         int opcao;
 
         do {
@@ -36,23 +37,107 @@ public class ControleDeTarefas {
 
                     String tarefa = entrada.nextLine();
                     tarefas.add(tarefa);
+                    concluidas.add(false);
 
                     System.out.println("Tarefa "+tarefa+" registrada com sucesso!");
                     break;
 
                 case 2:
-
                     int quant = tarefas.size();
+                    int i = 0;
 
                         if (tarefas.size() == 0) {
                             System.out.println("Não temos nenhuma tarefa cadastrada.");
+
                         }else if (tarefas.size() == 1){
                             System.out.println(quant+" tarefa Cadastrada:");
-                            System.out.println(tarefas);
+
+                            if (concluidas.get(i)) {
+                                System.out.println("[X] " + tarefas.get(i));
+                            } else {
+                                System.out.println("[ ] " + tarefas.get(i));
+                            }
+
                         }else{
                             System.out.println(quant+" tarefas Cadastradas");
-                            System.out.println(tarefas);
+                            for (int j = 0; j < tarefas.size(); j++) {
+                                if (concluidas.get(j)) {
+                                    System.out.println("[X] " + tarefas.get(j));
+                                } else {
+                                    System.out.println("[ ] " + tarefas.get(j));
+                                }
+                            }
                         }
+                    break;
+
+                case 3:
+
+                    if (tarefas.size() == 0) {
+                        System.out.println("Nenhuma tarefa cadastrada.");
+                    }else {
+
+                        System.out.println("=============================");
+                        System.out.println("     Tarefas Cadastradas     ");
+                        System.out.println("=============================");
+
+                        for (int j = 0; j < tarefas.size(); j++) {
+                            System.out.println((j + 1) + " - " + tarefas.get(j));
+                        }
+
+                        System.out.print("Qual tarefa foi concluida:");
+
+                        int tafNaoCon = entrada.nextInt();
+
+                        while (tafNaoCon > tarefas.size() || tafNaoCon <= 0) {
+                            System.out.println("Opção invalida");
+
+                            System.out.print("Qual tarefa foi concluida:");
+
+                            tafNaoCon = entrada.nextInt();
+                        }
+
+                        concluidas.set(tafNaoCon - 1, true);
+
+                        System.out.println("Tarefa " + tarefas.get(tafNaoCon - 1) + " foi concluido!");
+                    }
+                    break;
+
+                case 4:
+                    if (tarefas.size() == 0){
+                        System.out.println("Nenhuma tarefa cadastrada.");
+                    }else {
+
+                        System.out.println("=============================");
+                        System.out.println("     Tarefas Cadastradas     ");
+                        System.out.println("=============================");
+
+                        for (int j = 0; j < tarefas.size(); j++) {
+                            System.out.println((j + 1) + " - " + tarefas.get(j));
+                        }
+
+                        System.out.print("Qual tarefa gostaria de excluir:");
+
+                        int excluirTaf = entrada.nextInt();
+
+                        while (excluirTaf > tarefas.size() || excluirTaf <= 0) {
+                            System.out.println("Opção invalida");
+
+                            System.out.print("Qual tarefa gostaria de excluir:");
+
+                            excluirTaf = entrada.nextInt();
+                        }
+
+                        System.out.println("Tarefa "+tarefas.get(excluirTaf - 1)+" foi excluida!");
+
+                        tarefas.remove(excluirTaf-1);
+                        concluidas.remove(excluirTaf-1);
+                    }
+                    break;
+                case 5:
+                    System.out.println("Até a proxima!");
+                    break;
+                default:
+                    System.out.println("Opção invalida!");
             }
         }while (opcao != 5);
     }
