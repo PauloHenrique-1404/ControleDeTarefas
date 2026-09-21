@@ -9,12 +9,11 @@ public class ControleDeTarefas {
         Scanner entrada = new Scanner(System.in);
         ArrayList<String> tarefas = new ArrayList<>();
         ArrayList<Boolean> concluidas = new ArrayList<>();
-        int opcao;
+        int opcao = 0;
 
         do {
-
             System.out.println("=============================");
-            System.out.println("     Controle de Tarefas     ");
+            System.out.println("      Controle de Tarefas     ");
             System.out.println("=============================");
             System.out.println("[1] Cadastrar Tarefa");
             System.out.println("[2] Lista de tarefa");
@@ -23,134 +22,144 @@ public class ControleDeTarefas {
             System.out.println("[5] Sair");
             System.out.println(" ");
             System.out.println("=============================");
-            System.out.print("Qual sua opção: ");
 
-            entrada.hasNextInt();
-
-            while (entrada.hasNextInt() == false) {
-                System.out.println("Opção invalida");
-                System.out.println(" ");
+            // Validação do Menu Principal
+            while (true) {
                 System.out.print("Qual sua opção: ");
-                entrada.nextLine();
+                String entradaMenu = entrada.nextLine();
+
+                try {
+                    opcao = Integer.parseInt(entradaMenu);
+                    break; // Se for um número inteiro válido, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Opção inválida! Digite apenas o número de uma opção.");
+                    System.out.println(" ");
+                }
             }
 
-            opcao = entrada.nextInt();
+            switch (opcao) {
+                case 1:
+                    System.out.println("=============================");
+                    System.out.println("      Cadastro de Tarefas     ");
+                    System.out.println("=============================");
+                    System.out.println(" ");
+                    System.out.print("Nome da tarefa: ");
 
-                switch (opcao) {
-                    case 1:
-                        System.out.println("=============================");
-                        System.out.println("     Cadastro de Tarefas     ");
-                        System.out.println("=============================");
-                        System.out.println(" ");
-                        entrada.nextLine();
-                        System.out.print("Nome da tarefa: ");
+                    String tarefa = entrada.nextLine();
+                    tarefas.add(tarefa);
+                    concluidas.add(false);
 
-                        String tarefa = entrada.nextLine();
-                        tarefas.add(tarefa);
-                        concluidas.add(false);
+                    System.out.println("Tarefa " + tarefa + " registrada com sucesso!");
+                    break;
 
-                        System.out.println("Tarefa " + tarefa + " registrada com sucesso!");
-                        break;
+                case 2:
+                    int quant = tarefas.size();
 
-                    case 2:
-                        int quant = tarefas.size();
-                        int i = 0;
-
-                        if (tarefas.size() == 0) {
-                            System.out.println("Não temos nenhuma tarefa cadastrada.");
-
-                        } else if (tarefas.size() == 1) {
-                            System.out.println(quant + " tarefa Cadastrada:");
-
-                            if (concluidas.get(i)) {
-                                System.out.println("[X] " + tarefas.get(i));
+                    if (tarefas.size() == 0) {
+                        System.out.println("Não temos nenhuma tarefa cadastrada.");
+                    } else if (tarefas.size() == 1) {
+                        System.out.println(quant + " tarefa Cadastrada:");
+                        if (concluidas.get(0)) {
+                            System.out.println("[X] " + tarefas.get(0));
+                        } else {
+                            System.out.println("[ ] " + tarefas.get(0));
+                        }
+                    } else {
+                        System.out.println(quant + " tarefas Cadastradas");
+                        for (int j = 0; j < tarefas.size(); j++) {
+                            if (concluidas.get(j)) {
+                                System.out.println("[X] " + tarefas.get(j));
                             } else {
-                                System.out.println("[ ] " + tarefas.get(i));
+                                System.out.println("[ ] " + tarefas.get(j));
                             }
+                        }
+                    }
+                    break;
 
-                        } else {
-                            System.out.println(quant + " tarefas Cadastradas");
-                            for (int j = 0; j < tarefas.size(); j++) {
-                                if (concluidas.get(j)) {
-                                    System.out.println("[X] " + tarefas.get(j));
+                case 3:
+                    if (tarefas.size() == 0) {
+                        System.out.println("Nenhuma tarefa cadastrada.");
+                    } else {
+                        System.out.println("=============================");
+                        System.out.println("      Tarefas Cadastradas     ");
+                        System.out.println("=============================");
+
+                        for (int j = 0; j < tarefas.size(); j++) {
+                            System.out.println((j + 1) + " - " + tarefas.get(j));
+                        }
+
+                        int tafNaoCon = 0;
+
+                        while (true) {
+                            System.out.print("Qual tarefa foi concluída: ");
+                            String textoDigitado = entrada.nextLine();
+
+                            try {
+                                tafNaoCon = Integer.parseInt(textoDigitado);
+
+                                if (tafNaoCon >= 1 && tafNaoCon <= tarefas.size()) {
+                                    break;
                                 } else {
-                                    System.out.println("[ ] " + tarefas.get(j));
+                                    System.out.println("Número fora da lista! Digite uma opção entre 1 e " + tarefas.size() + ".");
                                 }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Opção inválida! Digitar apenas o número da tarefa.");
                             }
                         }
-                        break;
 
-                    case 3:
+                        concluidas.set(tafNaoCon - 1, true);
+                        System.out.println("Tarefa " + tarefas.get(tafNaoCon - 1) + " foi concluída!");
+                    }
+                    break;
 
-                        if (tarefas.size() == 0) {
-                            System.out.println("Nenhuma tarefa cadastrada.");
-                        } else {
+                case 4:
+                    if (tarefas.size() == 0) {
+                        System.out.println("Nenhuma tarefa cadastrada.");
+                    } else {
+                        System.out.println("=============================");
+                        System.out.println("      Tarefas Cadastradas     ");
+                        System.out.println("=============================");
 
-                            System.out.println("=============================");
-                            System.out.println("     Tarefas Cadastradas     ");
-                            System.out.println("=============================");
-
-                            for (int j = 0; j < tarefas.size(); j++) {
-                                System.out.println((j + 1) + " - " + tarefas.get(j));
-                            }
-
-                            System.out.print("Qual tarefa foi concluida:");
-
-                            int tafNaoCon = entrada.nextInt();
-
-                            while (tafNaoCon > tarefas.size() || tafNaoCon <= 0) {
-                                System.out.println("Opção invalida");
-
-                                System.out.print("Qual tarefa foi concluida:");
-
-                                tafNaoCon = entrada.nextInt();
-                            }
-
-                            concluidas.set(tafNaoCon - 1, true);
-
-                            System.out.println("Tarefa " + tarefas.get(tafNaoCon - 1) + " foi concluido!");
+                        for (int j = 0; j < tarefas.size(); j++) {
+                            System.out.println((j + 1) + " - " + tarefas.get(j));
                         }
-                        break;
 
-                    case 4:
-                        if (tarefas.size() == 0) {
-                            System.out.println("Nenhuma tarefa cadastrada.");
-                        } else {
+                        int excluirTaf = 0;
 
-                            System.out.println("=============================");
-                            System.out.println("     Tarefas Cadastradas     ");
-                            System.out.println("=============================");
+                        while (true) {
+                            System.out.print("Qual tarefa gostaria de excluir: ");
+                            String textoDigitado = entrada.nextLine();
 
-                            for (int j = 0; j < tarefas.size(); j++) {
-                                System.out.println((j + 1) + " - " + tarefas.get(j));
+                            try {
+                                excluirTaf = Integer.parseInt(textoDigitado);
+
+                                if (excluirTaf >= 1 && excluirTaf <= tarefas.size()) {
+                                    break;
+                                } else {
+                                    System.out.println("Número fora da lista! Digite uma opção entre 1 e " + tarefas.size() + ".");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Opção inválida! Digitar apenas o número da tarefa.");
                             }
-
-                            System.out.print("Qual tarefa gostaria de excluir:");
-
-                            int excluirTaf = entrada.nextInt();
-
-                            while (excluirTaf > tarefas.size() || excluirTaf <= 0) {
-                                System.out.println("Opção invalida");
-
-                                System.out.print("Qual tarefa gostaria de excluir:");
-
-                                excluirTaf = entrada.nextInt();
-                            }
-
-                            System.out.println("Tarefa " + tarefas.get(excluirTaf - 1) + " foi excluida!");
-
-                            tarefas.remove(excluirTaf - 1);
-                            concluidas.remove(excluirTaf - 1);
                         }
-                        break;
-                    case 5:
-                        System.out.println("Até a proxima!");
-                        break;
-                    default:
-                        System.out.println("Opção invalida!");
-                        System.out.println(" ");
-                }
-                
-        }while (opcao != 5);
+
+                        System.out.println("Tarefa " + tarefas.get(excluirTaf - 1) + " foi excluída!");
+                        tarefas.remove(excluirTaf - 1);
+                        concluidas.remove(excluirTaf - 1);
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Até a próxima!");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida! Escolha um número entre 1 e 5.");
+                    System.out.println(" ");
+            }
+
+        } while (opcao != 5);
+
+        entrada.close();
     }
 }
